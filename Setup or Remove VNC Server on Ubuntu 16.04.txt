@@ -1,0 +1,53 @@
+SETUP VNC SERVER ON UBUNTU 16.04
+--------------------------------
+Step 1: Prepare for setup:
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+
+Step 2: Install a light weight desktop environment:
+
+$ sudo apt install xfce4 xfce4-goodies
+
+Step 3: Install and configure VNC server:
+
+$ sudo apt-get install tightvncserver
+$ vncserver
+
+Step 4: Kill all open VNC server instances:
+=> To list all 'x' instances use:
+$ ps -ef | grep Xtightvnc
+=> To kill an instance use:
+$ vncserver -kill :x
+
+Step 5: Configure VNC Server:
+
+$ nano ~/.vnc/xstartup
+=> Edit this file to:
+
+#!/bin/sh
+def
+export XKL_XMODMAP_DISABLE=1
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+
+xrdb $HOME/.Xresources
+xsetroot -solid grey
+
+startxfce4 &
+
+=> To save and exit, use 
+Ctrl X Y Enter
+
+Step 6: Start VNC server:
+vncserver
+
+REMOVE VNC SERVER ON UBUNTU 16.04
+---------------------------------
+=> To remove just tightvncserver package:
+$ sudo apt-get remove tightvncserver
+$ sudo apt-get remove --auto-remove tightvncserver
+
+=> To delete configuration and/or data files:
+$ sudo apt-get purge tightvncserver
+$ sudo apt-get purge --auto-remove tightvncserver
