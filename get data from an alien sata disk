@@ -1,0 +1,8 @@
+$ lsblk
+
+$ udisksctl mount -b /dev/sdb1
+Mounted /dev/sdb1 at /media/username/wherever
+
+$ cd /media/username/wherever
+
+$ nautilus .
