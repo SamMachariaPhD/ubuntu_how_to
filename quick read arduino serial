@@ -1,0 +1,15 @@
+import serial, csv
+import numpy as np
+
+arduino = serial.Serial('COM4',9600)
+
+while True:
+    strg = arduino.readline()
+    rows = strg.decode("UTF-8")
+    values = [float(i) for i in rows.split(',')]
+    with open('sensor.csv','a') as fp:
+        writer = csv.writer(fp)
+        writer.writerow(values)
+        fp.close()
+
+#Then use https://www.zamzar.com/ to convert to .xls
