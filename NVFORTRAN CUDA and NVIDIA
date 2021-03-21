@@ -1,0 +1,47 @@
+1. Prepare CUDA
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=runfilelocal
+
+```
+wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux.run
+sudo sh cuda_11.2.0_460.27.04_linux.run
+```
+
+The above should install both NVIDIA drivers and full CUDA toolkit.
+Confirm that all is well installed by: 
+$ nvidia-smi
+$ nvcc -V
+
+2. Prepare NVFORTRAN
+
+https://developer.nvidia.com/nvidia-hpc-sdk-downloads
+
+Installation Instructions:
+
+$ wget https://developer.download.nvidia.com/hpc-sdk/20.11/nvhpc-20-11_20.11_amd64.deb \https://developer.download.nvidia.com/hpc-sdk/20.11/nvhpc-2020_20.11_amd64.deb
+$ sudo apt-get install ./nvhpc-20-11_20.11_amd64.deb ./nvhpc-2020_20.11_amd64.deb
+
+Test if all is well installed by:
+$ nvfortran -V
+
+3. Make sure that bashrc paths are well set:
+$ sudo nano ~/.bashrc
+
+# set NVIDIA HPC-SDK path 
+NVARCH=`uname -s`_`uname -m`; export NVARCH
+NVCOMPILERS=/opt/nvidia/hpc_sdk; export NVCOMPILERS
+MANPATH=$MANPATH:$NVCOMPILERS/$NVARCH/20.9/compilers/man; export MANPATH
+PATH=$NVCOMPILERS/$NVARCH/20.9/compilers/bin:$PATH; export PATH
+export PATH=$NVCOMPILERS/$NVARCH/20.9/comm_libs/mpi/bin:$PATH
+export LD_LIBRARY_PATH=$NVCOMPILERS/$NVARCH/20.9/compilers/lib:$LD_LIBRARY_PATH
+export MANPATH=$MANPATH:$NVCOMPILERS/$NVARCH/20.9/comm_libs/mpi/man
+
+# set CUDA path
+export CUDA_HOME="/usr/local/cuda-11.2"
+export LD_LIBRARY_PATH="/usr/local/cuda-11.2/lib64":$LD_LIBRARY_PATH
+export PATH="/usr/local/cuda-11.2/bin:$PATH"
+export LD_LIBRARY_PATH=/opt/pgi/linux86-64-llvm/19.10/lib/
+
+NB: nvfortan paths first, then cuda paths second.
+
+$ source ~/.bashrc
+$ sudo reboot
